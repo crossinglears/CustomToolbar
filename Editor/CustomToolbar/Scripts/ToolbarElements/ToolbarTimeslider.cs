@@ -47,8 +47,13 @@ internal class ToolbarTimeslider : BaseToolbarElement {
 
 	protected override void OnDrawInToolbar() {
 		EditorGUILayout.LabelField("Time", GUILayout.Width(30));
-        selectedTimeScale = EditorGUILayout.Slider("", selectedTimeScale, minTime, maxTime, GUILayout.Width(WidthInToolbar - 30.0f));
-        if (EditorApplication.isPlaying && selectedTimeScale != Time.timeScale)
-            Time.timeScale = selectedTimeScale;
-    }
+
+		float newTimeScale = EditorGUILayout.Slider("", Time.timeScale, minTime, maxTime, GUILayout.Width(WidthInToolbar - 30.0f));
+
+		if (!Mathf.Approximately(newTimeScale, Time.timeScale)) {
+			// Only update Time.timeScale if the user changes the slider
+			Time.timeScale = newTimeScale;
+		}
+	}
+
 }
